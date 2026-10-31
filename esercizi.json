@@ -1,0 +1,23 @@
+{
+ "gruppi": [
+  {
+   "nome": "3AIT - Verifica 1",
+   "esercizi": [
+    { "titolo": "Esercizio 1", "espressione": "A*!B + C" },
+    { "titolo": "Esercizio 2", "espressione": "(A+B)*!C", "porte": ["AND", "OR", "NOT"] },
+    { "titolo": "Funzione da tabella", "tabella": "01101001", "min": 3 }
+  ]
+ },
+ {
+  "nome": "4BIT - De Morgan",
+  "esercizi": [
+    {
+      "titolo": "Solo porte OR e NOT",
+      "espressione": "!(A*B)",
+      "porte": ["OR", "NOT"],
+      "teoria": "De Morgan: la negazione di un prodotto e la somma delle negazioni."
+    }
+  ]
+ }
+]
+}
