@@ -1,0 +1,215 @@
+{
+ "gruppi": [
+  {
+   "nome": "Livello 1 - una porta",
+   "esercizi": [
+    {
+     "titolo": "AND",
+     "espressione": "A*B"
+    },
+    {
+     "titolo": "NOT",
+     "espressione": "!A",
+     "variabili": 1
+    },
+    {
+     "titolo": "XOR",
+     "espressione": "A^B"
+    }
+   ]
+  },
+  {
+   "nome": "Livello 2 - due porte",
+   "esercizi": [
+    {
+     "espressione": "A*!B"
+    },
+    {
+     "espressione": "!A+B"
+    },
+    {
+     "espressione": "!A*!B"
+    },
+    {
+     "espressione": "A*B+C"
+    },
+    {
+     "espressione": "(A+B)*C"
+    },
+    {
+     "espressione": "A*B+C*D"
+    },
+    {
+     "espressione": "(A+B)*(C+D)"
+    }
+   ]
+  },
+  {
+   "nome": "Livello 3 - somme di prodotti",
+   "esercizi": [
+    {
+     "titolo": "Coincidenza",
+     "espressione": "A*B+!A*!B"
+    },
+    {
+     "espressione": "A*!B+!A*B"
+    },
+    {
+     "titolo": "Multiplexer 2:1",
+     "espressione": "A*B+!A*C"
+    },
+    {
+     "titolo": "Tutti uguali",
+     "espressione": "A*B*C+!A*!B*!C"
+    },
+    {
+     "espressione": "A*(B+C)*!D"
+    }
+   ]
+  },
+  {
+   "nome": "Livello 4 - funzioni applicative",
+   "esercizi": [
+    {
+     "titolo": "Maggioranza",
+     "espressione": "A*B+B*C+A*C"
+    },
+    {
+     "titolo": "Parita a 3 bit",
+     "espressione": "A^B^C"
+    },
+    {
+     "titolo": "Riporto di un sommatore completo",
+     "espressione": "A*B+C*(A^B)"
+    },
+    {
+     "titolo": "Parita a 4 bit",
+     "espressione": "A^B^C^D"
+    }
+   ]
+  },
+  {
+   "nome": "Livello 5 - problemi",
+   "esercizi": [
+    {
+     "titolo": "Circuito a 4 ingressi",
+     "espressione": "A*!B*C+C*!D+!A*B*!C*D"
+    },
+    {
+     "titolo": "Comparatore AB > CD",
+     "espressione": "A*!C+!(A^C)*B*!D"
+    },
+    {
+     "titolo": "Almeno due ingressi su quattro a 1",
+     "tabella": "0001011101111111"
+    },
+    {
+     "titolo": "Multiplo di 3 (ABCD in binario: 0, 3, 6, 9, 12, 15)",
+     "tabella": "1001001001001001"
+    },
+    {
+     "titolo": "Numero primo (ABCD in binario: 2, 3, 5, 7, 11, 13)",
+     "tabella": "0011010100010100"
+    }
+   ]
+  },
+  {
+   "nome": "Teoremi di Boole",
+   "esercizi": [
+    {
+     "titolo": "De Morgan (solo OR e NOT)",
+     "espressione": "!(A*B)",
+     "porte": [
+      "OR",
+      "NOT"
+     ],
+     "teoria": "De Morgan: la negazione di un prodotto e la somma delle negazioni."
+    },
+    {
+     "titolo": "De Morgan (solo AND e NOT)",
+     "espressione": "!(A+B)",
+     "porte": [
+      "AND",
+      "NOT"
+     ],
+     "teoria": "De Morgan: la negazione di una somma e il prodotto delle negazioni."
+    },
+    {
+     "titolo": "De Morgan a tre variabili (solo OR e NOT)",
+     "espressione": "!(A*B*C)",
+     "porte": [
+      "OR",
+      "NOT"
+     ],
+     "teoria": "De Morgan a tre variabili: la negazione di un prodotto e la somma delle negazioni."
+    },
+    {
+     "titolo": "AND con sole porte NOR",
+     "espressione": "A*B",
+     "porte": [
+      "NOR"
+     ],
+     "teoria": "Per De Morgan A*B e la negazione di (!A + !B). Una NOR con gli ingressi uniti fa da NOT."
+    },
+    {
+     "titolo": "OR con sole porte NAND",
+     "espressione": "A+B",
+     "porte": [
+      "NAND"
+     ],
+     "teoria": "Per De Morgan A+B e la negazione di (!A * !B). Una NAND con gli ingressi uniti fa da NOT."
+    },
+    {
+     "titolo": "XOR con sole porte NAND",
+     "espressione": "A^B",
+     "porte": [
+      "NAND"
+     ],
+     "min": 4,
+     "teoria": "La XOR si puo realizzare con quattro porte NAND."
+    },
+    {
+     "titolo": "Doppia negazione",
+     "espressione": "A",
+     "porte": [
+      "NOT"
+     ],
+     "min": 2,
+     "teoria": "Doppia negazione: negare due volte un segnale lo lascia invariato."
+    },
+    {
+     "titolo": "Assorbimento",
+     "espressione": "A+A*B",
+     "variabili": 2,
+     "porte": [
+      "AND",
+      "OR"
+     ],
+     "min": 2,
+     "teoria": "Assorbimento: A + A*B = A. L'uscita coincide con A."
+    },
+    {
+     "titolo": "Proprieta distributiva",
+     "espressione": "A*B+A*C",
+     "porte": [
+      "AND",
+      "OR"
+     ],
+     "min": 3,
+     "teoria": "Distributiva: A*(B + C) = A*B + A*C."
+    },
+    {
+     "titolo": "Teorema del consenso",
+     "espressione": "A*B+!A*C+B*C",
+     "porte": [
+      "AND",
+      "OR",
+      "NOT"
+     ],
+     "min": 5,
+     "teoria": "Consenso: il termine B*C e ridondante, equivale a A*B + !A*C."
+    }
+   ]
+  }
+ ]
+}
