@@ -84,6 +84,10 @@ button:disabled{opacity:.4;cursor:default}
 #ed .row{margin:8px 0}
 #el div{display:flex;gap:6px;align-items:center;margin:2px 0}
 #el b{display:block;margin-top:8px}
+#zin,#zout,#zfit{background:#0891b2}
+#cun,#crd{background:#475569}
+.nd{fill:var(--acc);stroke:#fff;stroke-width:2;cursor:move}
+.mp{fill:var(--bg);stroke:var(--acc);stroke-width:2;cursor:copy}
 #htabs button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;font-size:12px;border-radius:12px}
 .hd{fill:var(--bg);stroke:var(--fg);stroke-width:2}
 .lamp{fill:#374151;stroke:var(--fg);stroke-width:3}
@@ -393,10 +397,10 @@ AFRAME.registerComponent('gatesym',{
   <div id="ctar"></div>
   <div id="cth" hidden style="font-size:13px;padding:6px 12px;border-radius:12px;border:1px dashed var(--acc)"></div>
   <div class="row" id="cpal"></div>
-  <div class="row" id="cact"><button id="cdel" class="ic" title="Elimina selezione" aria-label="Elimina selezione"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg></button><button id="cclr" class="ic" title="Svuota tutto e ricomincia" aria-label="Svuota"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg></button><button id="cchk" class="ic" title="Verifica il circuito" aria-label="Verifica"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l3 3 5-6"/></svg></button><button id="cnext" class="ic" title="Esercizio successivo" aria-label="Esercizio successivo"><svg viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg></button><button id="ced" class="ic" hidden style="background:#7c3aed" title="Gestisci esercizi (modalità docente)" aria-label="Gestisci esercizi"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><select id="csel" title="Scegli esercizio"></select></div>
+  <div class="row" id="cact"><button id="cun" class="ic" title="Indietro (Ctrl+Z)" aria-label="Indietro"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button><button id="crd" class="ic" title="Avanti (Ctrl+Y)" aria-label="Avanti"><svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button><button id="cdel" class="ic" title="Elimina selezione" aria-label="Elimina selezione"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg></button><button id="cclr" class="ic" title="Svuota tutto e ricomincia" aria-label="Svuota"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg></button><button id="cchk" class="ic" title="Verifica il circuito" aria-label="Verifica"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l3 3 5-6"/></svg></button><button id="cnext" class="ic" title="Esercizio successivo" aria-label="Esercizio successivo"><svg viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg></button><button id="zin" class="ic" title="Ingrandisci" aria-label="Ingrandisci"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M8 11h6M11 8v6"/></svg></button><button id="zout" class="ic" title="Riduci" aria-label="Riduci"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M8 11h6"/></svg></button><button id="zfit" class="ic" title="Adatta alla vista" aria-label="Adatta alla vista"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="ced" class="ic" hidden style="background:#7c3aed" title="Gestisci esercizi (modalità docente)" aria-label="Gestisci esercizi"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><select id="csel" title="Scegli esercizio"></select></div>
   <svg id="cw" viewBox="0 0 800 440"></svg>
   <div id="cres"></div>
-  <div class="mut">Aggiungi le porte, trascinale, poi tocca un’uscita e un ingresso per collegarli. Gli ingressi sono le linee verticali: tocca una linea e poi l’ingresso di una porta per collegarli. Tocca i cerchi in alto per cambiare i valori.</div>
+  <div class="mut">Aggiungi le porte, trascinale, poi tocca un’uscita e un ingresso per collegarli. Gli ingressi sono le linee verticali: tocca una linea e poi l’ingresso di una porta per collegarli. Tocca i cerchi in alto per cambiare i valori. Rotella o pizzico per ingrandire, trascina lo sfondo per spostarti. Seleziona un filo: trascina i punti per piegarlo, tocca il cerchietto al centro di un tratto per aggiungere un nodo, doppio tocco su un nodo per toglierlo. Anche il LED si trascina.</div>
 </div>
 
 <script>
@@ -555,10 +559,26 @@ const EX=[
 const OW={AND:75,NAND:85,OR:75,NOR:85,XOR:83,XNOR:93,NOT:72};
 const BODY={AND:'M0,0H45A30,30 0 0 1 45,60H0Z',OR:'M0,0Q35,0 75,30Q35,60 0,60Q20,30 0,0Z',NOT:'M8,8L8,52L62,30Z'};
 let ei=0,tgt=EX[0],nv=2,iv=[0,0,0,0],gs=[],ws=[],sel=null,pend=null,nid=1,drag=null,res='',vr3=false;
+let led={x:730,y:220},vb={x:0,y:0,w:800,h:440},wd=null,ld=null,pan=null,pinch=null,lastTap=0,lastKey='';const ptr=new Map();
+let undoSt=[],redoSt=[],hlast='',hlock=false;
+const hsn=()=>JSON.stringify({gs,ws,led,nid});
+function hchk(){
+  const cur=hsn();
+  if(!hlast){hlast=cur;return;}
+  if(cur===hlast)return;
+  if(!hlock){undoSt.push(hlast);if(undoSt.length>100)undoSt.shift();redoSt=[];}
+  hlast=cur;hlock=!!(drag||wd||ld);
+}
+function hset(s){
+  const o=JSON.parse(s);
+  gs=o.gs;ws=o.ws;led=o.led;nid=o.nid;sel=null;pend=null;res='';drag=null;wd=null;ld=null;hlast=s;hlock=false;
+}
+function undo(){if(!undoSt.length)return;redoSt.push(hlast);hset(undoSt.pop());cr();}
+function redo(){if(!redoSt.length)return;undoSt.push(hlast);hset(redoSt.pop());cr();}
 const lx=i=>40+i*45;
 const sv=$('#cw');
 function pos(id){
-  if(id==='y')return[690,220];
+  if(id==='y')return[led.x-40,led.y];
   if(id[0]==='i')return[lx(+id.slice(1)),30];
   const[a,p]=id.split('.'),g=gs.find(g=>'g'+g.id===a);
   return p===undefined?[g.x+OW[g.k]+10,g.y+30]:[g.x-10,g.y+(g.k==='NOT'?30:15+30*p)];
@@ -591,21 +611,26 @@ function icon(k){
     (xo?'<path class="ln" d="M0,0Q20,30 0,60"/>':'')+
     (bub?`<circle class="gb" cx="${ow-5}" cy="30" r="5"/>`:'')+'</svg>';
 }
-function cr(){
+function cr(){hchk();
   $('#ctar').innerHTML='<span class="mut">'+LV(tgt)+' · Esercizio '+(ei+1)+'/'+EX.length+'</span><br>Realizza: '+tgt.t;$('#cth').innerHTML=tgt.th||'';$('#cth').hidden=!tgt.th;document.querySelectorAll('#cpal button').forEach(b=>b.disabled=!!tgt.only&&!tgt.only.includes(b.dataset.k));
   let s='';
+  let H='';
   ws.forEach((w,i)=>{
-    const[x2,y2]=pos(w.b),inp=w.a[0]==='i',[x1,y1]=inp?[lx(+w.a.slice(1)),y2]:pos(w.a),xm=x2>x1+40?(x1+x2)/2:x1+20,d=inp?`M${x1},${y1}H${x2}`:`M${x1},${y1}H${xm}V${y2}H${x2}`;
-    s+=`<path class="w${val(w.a,iv)?' on':''}${sel&&sel.t==='w'&&sel.i===i?' sel':''}" d="${d}"/><path class="hit" data-w="${i}" d="${d}"/>${inp?`<circle class="jn" cx="${x1}" cy="${y1}" r="4"/>`:''}`;
+    const V=wv(w),d='M'+V.map(q=>q[0]+','+q[1]).join('L'),inp=w.a[0]==='i',on=sel&&sel.t==='w'&&sel.i===i;
+    s+=`<path class="w${val(w.a,iv)?' on':''}${on?' sel':''}" d="${d}"/><path class="hit" data-w="${i}" d="${d}"/>${inp?`<circle class="jn" cx="${V[0][0]}" cy="${V[0][1]}" r="4"/>`:''}`;
+    if(on){
+      for(let k=0;k<V.length-1;k++)H+=`<circle class="mp" data-mp="${i}:${k}" cx="${(V[k][0]+V[k+1][0])/2}" cy="${(V[k][1]+V[k+1][1])/2}" r="6"/>`;
+      for(let k=1;k<V.length-1;k++)H+=`<circle class="nd" data-nd="${i}:${k-1}" cx="${V[k][0]}" cy="${V[k][1]}" r="8"/>`;
+    }
   });
   gs.forEach(g=>s+=gsvg(g));
   for(let i=0;i<nv;i++){
     const x=lx(i);
-    s+=`<path class="vl${pend&&pend.id==='i'+i?' sel':''}${iv[i]?' on':''}" d="M${x},43V430"/><path class="hit" data-pin="i${i}" data-dir="o" d="M${x},43V430"/><g data-t="${i}"><circle cx="${x}" cy="30" r="13" class="tg${iv[i]?' on':''}"/><text x="${x}" y="35" text-anchor="middle" class="tx">${iv[i]}</text></g><text x="${x}" y="11" text-anchor="middle" class="tx">${'ABCD'[i]}</text>`;
+    s+=`<path class="vl${pend&&pend.id==='i'+i?' sel':''}${iv[i]?' on':''}" d="M${x},43V1500"/><path class="hit" data-pin="i${i}" data-dir="o" d="M${x},43V1500"/><g data-t="${i}"><circle cx="${x}" cy="30" r="13" class="tg${iv[i]?' on':''}"/><text x="${x}" y="35" text-anchor="middle" class="tx">${iv[i]}</text></g><text x="${x}" y="11" text-anchor="middle" class="tx">${'ABCD'[i]}</text>`;
   }
-  s+=pinS('y','i',690,220)+'<path class="ln" d="M698,220H710"/>'+`<circle class="led${out(iv)?' on':''}" cx="730" cy="220" r="20"/><text x="730" y="226" text-anchor="middle" class="tx">Y</text>`;
-  sv.innerHTML=s;
-  $('#cres').innerHTML=res;$('#cdel').disabled=!sel;if(vr3)cr3();
+  s+=pinS('y','i',led.x-40,led.y)+`<path class="ln" d="M${led.x-32},${led.y}H${led.x-20}"/><g data-led="1" style="cursor:move"><circle class="led${out(iv)?' on':''}" cx="${led.x}" cy="${led.y}" r="20"/><text x="${led.x}" y="${led.y+6}" text-anchor="middle" class="tx">Y</text></g>`;
+  setVB();sv.innerHTML=s+H;
+  $('#cres').innerHTML=res;$('#cdel').disabled=!sel;$('#cun').disabled=!undoSt.length;$('#crd').disabled=!redoSt.length;if(vr3)cr3();
 }
 /* ===== Circuiti 3D (VR) ===== */
 const S3=0.005,P3=(x,y)=>[(x-400)*S3,1.4-(y-220)*S3];
@@ -693,33 +718,101 @@ $('#c3').addEventListener('click',e=>{
   }
   cr();
 });
-function load(){tgt=EX[ei];$('#csel').value=ei;nv=tgt.n;iv=[0,0,0,0];gs=[];ws=[];sel=null;pend=null;res='';cr();}
-const pt=e=>{const p=sv.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(sv.getScreenCTM().inverse());};
+function load(){tgt=EX[ei];$('#csel').value=ei;led={x:730,y:220};vb={x:0,y:0,w:800,h:440};nv=tgt.n;iv=[0,0,0,0];gs=[];ws=[];sel=null;pend=null;res='';undoSt=[];redoSt=[];hlast=hsn();hlock=false;cr();}
+const ptc=(x,y)=>{const p=sv.createSVGPoint();p.x=x;p.y=y;return p.matrixTransform(sv.getScreenCTM().inverse());};
+const pt=e=>ptc(e.clientX,e.clientY);
+const snap=v=>Math.round(v/10)*10;
+function autoInner(w){
+  if(w.a[0]==='i')return[];
+  const[x1,y1]=pos(w.a),[x2,y2]=pos(w.b),xm=x2>x1+40?(x1+x2)/2:x1+20;
+  return[[xm,y1],[xm,y2]];
+}
+function wv(w){
+  const e=pos(w.b),inner=w.pts||autoInner(w);
+  const s=w.a[0]==='i'?[lx(+w.a.slice(1)),(inner[0]||e)[1]]:pos(w.a);
+  return[s,...inner,e];
+}
+function setVB(){sv.setAttribute('viewBox',`${vb.x} ${vb.y} ${vb.w} ${vb.h}`);}
+function zoom(f,c){
+  const nw=Math.min(3200,Math.max(160,vb.w/f)),k=nw/vb.w;
+  vb.x=c.x-(c.x-vb.x)*k;vb.y=c.y-(c.y-vb.y)*k;vb.w=nw;vb.h=vb.h*k;setVB();
+}
+function fitV(){
+  let mx=Math.max(800,led.x+70),my=Math.max(440,led.y+70);
+  gs.forEach(g=>{mx=Math.max(mx,g.x+OW[g.k]+60);my=Math.max(my,g.y+110);});
+  ws.forEach(w=>(w.pts||[]).forEach(q=>{mx=Math.max(mx,q[0]+30);my=Math.max(my,q[1]+30);}));
+  vb={x:0,y:0,w:mx,h:my};setVB();
+}
 sv.addEventListener('pointerdown',e=>{
-  const t=e.target;let el;
-  if(el=t.closest('[data-pin]')){
-    const id=el.dataset.pin,dir=el.dataset.dir;
-    if(pend&&pend.dir!==dir){
-      const a=dir==='i'?pend.id:id,b=dir==='i'?id:pend.id;
-      ws=ws.filter(w=>w.b!==b);ws.push({a,b});pend=null;res='';
-    }else pend=(pend&&pend.id===id)?null:{id,dir};
-    sel=null;
-  }else if(el=t.closest('[data-t]')){iv[+el.dataset.t]^=1;res='';}
+  ptr.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  try{sv.setPointerCapture(e.pointerId);}catch(err){}
+  if(ptr.size===2){
+    const[a,b]=[...ptr.values()];
+    pan=null;drag=null;wd=null;ld=null;pinch={d:Math.hypot(a.x-b.x,a.y-b.y)};
+    return;
+  }
+  const t=e.target,p=pt(e);let el,bg=false;
+  if(el=t.closest('[data-pin]'))pinAct(el.dataset.pin,el.dataset.dir);
+  else if(el=t.closest('[data-t]')){iv[+el.dataset.t]^=1;res='';}
+  else if(el=t.closest('[data-nd]')){
+    const[wi,k]=el.dataset.nd.split(':').map(Number),w=ws[wi],now=Date.now(),key=el.dataset.nd;
+    w.pts=w.pts||autoInner(w);
+    if(now-lastTap<350&&lastKey===key){w.pts.splice(k,1);if(!w.pts.length)delete w.pts;wd=null;}
+    else wd={wi,k};
+    lastTap=now;lastKey=key;
+  }
+  else if(el=t.closest('[data-mp]')){
+    const[wi,sg]=el.dataset.mp.split(':').map(Number),w=ws[wi];
+    w.pts=w.pts||autoInner(w);
+    w.pts.splice(sg,0,[snap(p.x),snap(p.y)]);wd={wi,k:sg};
+  }
+  else if(el=t.closest('[data-led]')){ld={dx:p.x-led.x,dy:p.y-led.y};sel=null;pend=null;}
   else if(el=t.closest('[data-g]')){
-    const g=gs.find(g=>g.id==el.dataset.g),p=pt(e);
+    const g=gs.find(g=>g.id==el.dataset.g);
     sel={t:'g',i:g.id};drag={g,dx:p.x-g.x,dy:p.y-g.y};pend=null;
-  }else if(el=t.closest('[data-w]')){sel={t:'w',i:+el.dataset.w};pend=null;}
-  else{sel=null;pend=null;}
-  cr();
+  }
+  else if(el=t.closest('[data-w]')){sel={t:'w',i:+el.dataset.w};pend=null;}
+  else{bg=true;pan={sx:e.clientX,sy:e.clientY,vx:vb.x,vy:vb.y,moved:false};}
+  if(!bg)cr();
 });
 sv.addEventListener('pointermove',e=>{
-  if(!drag)return;
+  if(ptr.has(e.pointerId))ptr.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pinch&&ptr.size===2){
+    const[a,b]=[...ptr.values()],d=Math.hypot(a.x-b.x,a.y-b.y);
+    zoom(d/pinch.d,ptc((a.x+b.x)/2,(a.y+b.y)/2));pinch.d=d;
+    return;
+  }
+  if(pan){
+    if(Math.hypot(e.clientX-pan.sx,e.clientY-pan.sy)>4)pan.moved=true;
+    if(pan.moved){const k=1/sv.getScreenCTM().a;vb.x=pan.vx-(e.clientX-pan.sx)*k;vb.y=pan.vy-(e.clientY-pan.sy)*k;setVB();}
+    return;
+  }
   const p=pt(e);
-  drag.g.x=Math.max(lx(nv-1)+45,Math.min(560,p.x-drag.dx));
-  drag.g.y=Math.max(55,Math.min(355,p.y-drag.dy));
+  if(drag){drag.g.x=Math.max(lx(nv-1)+45,snap(p.x-drag.dx));drag.g.y=Math.max(55,snap(p.y-drag.dy));}
+  else if(wd)ws[wd.wi].pts[wd.k]=[snap(p.x),snap(p.y)];
+  else if(ld){led.x=Math.max(lx(nv-1)+120,snap(p.x-ld.dx));led.y=Math.max(55,snap(p.y-ld.dy));}
+  else return;
   cr();
 });
-addEventListener('pointerup',()=>{drag=null;});
+sv.addEventListener('wheel',e=>{e.preventDefault();zoom(e.deltaY<0?1.15:1/1.15,pt(e));},{passive:false});
+const pup=e=>{
+  ptr.delete(e.pointerId);if(ptr.size<2)pinch=null;
+  if(pan&&!pan.moved){sel=null;pend=null;cr();}
+  drag=null;wd=null;ld=null;pan=null;hlock=false;
+};
+addEventListener('pointerup',pup);
+addEventListener('pointercancel',pup);
+$('#zin').onclick=()=>{zoom(1.25,{x:vb.x+vb.w/2,y:vb.y+vb.h/2});};
+$('#zout').onclick=()=>{zoom(1/1.25,{x:vb.x+vb.w/2,y:vb.y+vb.h/2});};
+$('#zfit').onclick=fitV;
+$('#cun').onclick=undo;
+$('#crd').onclick=redo;
+addEventListener('keydown',e=>{
+  if(!(e.ctrlKey||e.metaKey)||/INPUT|TEXTAREA/.test(document.activeElement.tagName)||!(document.body.classList.contains('circ')||vr3))return;
+  const k=e.key.toLowerCase();
+  if(k==='z'&&!e.shiftKey){e.preventDefault();undo();}
+  else if(k==='y'||(k==='z'&&e.shiftKey)){e.preventDefault();redo();}
+});
 Object.keys(G).forEach(k=>{
   const b=document.createElement('button');
   b.innerHTML=`<span>+ ${k}</span>${icon(k)}`;b.dataset.k=k;
