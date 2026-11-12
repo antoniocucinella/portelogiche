@@ -1,6 +1,7 @@
 /* =====================================================================
    js/13-analisi-circuiti.js  -  ESERCIZI DI ANALISI: "scrivi la funzione del circuito"
-   disegnaAnalisi() disegna il circuito dato; verificaAnalisi() controlla la risposta dello
+   disegnaAnalisi() disegna il circuito dato (le porte si spostano da sole se
+   un filo o un'altra porta le intralcia); verificaAnalisi() controlla la risposta dello
    studente; anteprimaRisposta()/inserisciSimbolo() gestiscono il campo di scrittura.
    ===================================================================== */
 
@@ -8,16 +9,54 @@ function disegnaAnalisi(){
   $('#ctar').innerHTML='<span class="mut">'+etichettaLivello(esercizioCorrente)+' · Esercizio '+(indiceEsercizio+1)+'/'+ESERCIZI.length+'</span><br>'+esercizioCorrente.t;
   $('#cth').hidden=true;$('#an').hidden=false;$('#cpal').hidden=true;
   ['#cdel','#cun','#crd'].forEach(q=>{$(q).disabled=true;});
-  const T=esercizioCorrente.an,s=1.5,C=260,X0=xIngresso(numeroIngressi-1)+70;let rows=0,maxc=0;
+  const T=esercizioCorrente.an,s=1.5,C=260,X0=xIngresso(numeroIngressi-1)+70;let righe=0,rigaMax=0;
   const wx=(d,on)=>`<path class="w${on?' on':''}" d="${d}"/>`;
   const hgt=n=>n.v!==undefined?-1:1+Math.max(...n.a.map(hgt));
   const val=n=>n.v!==undefined?valoriIngressi[n.v]:(n.val=n.g==='NOT'?PORTE.NOT.f(val(n.a[0])):PORTE[n.g].f(val(n.a[0]),val(n.a[1])));
+  /* ---------- POSIZIONAMENTO SENZA SOVRAPPOSIZIONI ----------
+     Ogni porta ha una colonna (n.col, in base alla profondita') e una riga (n.row).
+     La riga "preferita" e' la media delle righe delle porte collegate in ingresso.
+     Se in quel punto la porta toccherebbe un'altra porta, oppure i suoi fili
+     attraverserebbero altre porte, la si sposta in su o in giu' a passi di
+     un quarto di riga, finche' trova un posto libero. */
+  const MARGINE=8;
+  const scatole=[],percorsi=[];           /* porte e fili gia' posizionati */
+  const colpisce=(f,b)=>Math.min(f[0],f[2])<b.x+b.w+MARGINE&&Math.max(f[0],f[2])>b.x-MARGINE&&Math.min(f[1],f[3])<b.y+b.h+MARGINE&&Math.max(f[1],f[3])>b.y-MARGINE;
+  const sovrapposte=(a,b)=>a.x<b.x+b.w+MARGINE&&a.x+a.w+MARGINE>b.x&&a.y<b.y+b.h+MARGINE&&a.y+a.h+MARGINE>b.y;
+  /* riquadro della porta n alla riga "riga" e tratti dei suoi fili d'ingresso: [x1,y1,x2,y2,porta,figlio] */
+  const geometria=(n,riga)=>{
+    const k=n.g,ow=LARGHEZZA_PORTA[k],gx=X0+n.col*C,ry=90+riga*130,gy=ry-32*s,ix=gx+2*s,ys=k==='NOT'?[ry]:[gy+17*s,gy+47*s];
+    const fili=[];
+    n.a.forEach((c,j)=>{
+      const py=ys[j];
+      if(c.v!==undefined)fili.push([xIngresso(c.v),py,ix,py,n,null]);
+      else{const xm=(c.ox+ix)/2;fili.push([c.ox,c.oy,xm,c.oy,n,c],[xm,c.oy,xm,py,n,c],[xm,py,ix,py,n,c]);}
+    });
+    return{box:{x:gx,y:gy,w:(ow+24)*s,h:64*s,n},fili};
+  };
+  const posizioneLibera=g=>
+    !scatole.some(b=>sovrapposte(g.box,b))&&
+    !percorsi.some(f=>colpisce(f,g.box))&&
+    g.fili.every(f=>!scatole.some(b=>b.n!==f[4]&&b.n!==f[5]&&colpisce(f,b)));
   const place=n=>{
     if(n.v!==undefined)return;
     n.a.forEach(place);
     const gc=n.a.filter(c=>c.v===undefined);
-    n.col=hgt(n);maxc=Math.max(maxc,n.col);
-    n.row=gc.length?gc.reduce((t,c)=>t+c.row,0)/gc.length:rows++;
+    n.col=hgt(n);
+    const preferita=gc.length?gc.reduce((t,c)=>t+c.row,0)/gc.length:righe++;
+    let scelta=null;
+    for(let d=0;d<=24&&!scelta;d++){
+      for(const r of d===0?[preferita]:[preferita+d*0.25,preferita-d*0.25]){
+        if(r<0)continue;
+        const g=geometria(n,r);
+        if(posizioneLibera(g)){scelta={r,g};break;}
+      }
+    }
+    if(!scelta)scelta={r:preferita,g:geometria(n,preferita)};
+    n.row=scelta.r;
+    n.ox=scelta.g.box.x+(LARGHEZZA_PORTA[n.g]+22)*s;n.oy=90+n.row*130;
+    scatole.push(scelta.g.box);percorsi.push(...scelta.g.fili);
+    rigaMax=Math.max(rigaMax,n.row);
   };
   place(T);val(T);
   let wires='',gates='';
@@ -34,7 +73,7 @@ function disegnaAnalisi(){
     gates+=iconaPorta(k).replace(/width="[^"]+" height="32"/,`x="${gx}" y="${gy}" width="${(ow+24)*s}" height="${64*s}"`);
   };
   draw(T);
-  const yb=90+rows*130+40;let top='';
+  const yb=90+(rigaMax+1)*130+40;let top='';
   for(let i=0;i<numeroIngressi;i++){
     const x=xIngresso(i);
     top+=`<path class="vl${valoriIngressi[i]?' on':''}" d="M${x},43V${yb}"/><g data-t="${i}"><circle cx="${x}" cy="46" r="13" class="tg${valoriIngressi[i]?' on':''}"/><text x="${x}" y="51" text-anchor="middle" class="tx">${valoriIngressi[i]}</text></g><text x="${x}" y="22" text-anchor="middle" class="tx lt">${'ABCD'[i]}</text>`;
