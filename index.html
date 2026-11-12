@@ -86,6 +86,9 @@ button:disabled{opacity:.4;cursor:default}
 #el b{display:block;margin-top:8px}
 #zin,#zout,#zfit{background:#0891b2}
 #cun,#crd{background:#475569}
+#an input{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px}
+#ank button{min-width:40px;font-weight:700}
+#cres button{margin-top:6px}
 .nd{fill:var(--acc);stroke:#fff;stroke-width:2;cursor:move}
 .mp{fill:var(--bg);stroke:var(--acc);stroke-width:2;cursor:copy}
 #htabs button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;font-size:12px;border-radius:12px}
@@ -99,6 +102,35 @@ body.v2:not(.circ) #s2{display:flex;align-items:center;justify-content:center}
 #s2v .w{stroke-width:8}
 @media (max-width:700px){#bar{width:56px}#bar .lb{display:none}#gates{grid-template-columns:1fr}#gates span{display:none}#circ{left:72px}#s2{padding:12px 8px 300px 72px}#panel{left:72px}}
 #ctar,#expr{line-height:1.7}
+button{touch-action:manipulation}
+@media (max-width:700px){
+ #circ{padding:4px;gap:4px}
+ #ctar{padding:4px 8px;font-size:13px}
+ #ctar .mut{font-size:11px}
+ #cth{font-size:12px!important;padding:4px 8px!important}
+ #cpal,#cact{flex-wrap:nowrap;overflow-x:auto;margin:0;padding-bottom:2px}
+ #cpal button{flex:none;padding:2px 6px}
+ #cpal svg{width:42px;height:auto}
+ .ic{width:40px;height:40px;flex:none}
+ #cact select{flex:none;max-width:120px;padding:6px}
+ #circ>.mut{display:none}
+ #cres{font-size:12px}
+ #an input,#ed input{font-size:16px}
+ #an .row{margin:2px 0}
+ body.mh #circ{left:0}
+ body.mh #ctar{margin-left:50px}
+}
+@media (max-height:520px){
+ #circ{padding:4px;gap:4px}
+ #ctar{padding:3px 8px;font-size:13px}
+ #ctar .mut{display:none}
+ #cth{display:none}
+ #cpal,#cact{flex-wrap:nowrap;overflow-x:auto;margin:0}
+ #cpal button{flex:none;padding:2px 6px}
+ #cpal svg{width:36px;height:auto}
+ .ic{width:38px;height:38px;flex:none}
+ #circ>.mut{display:none}
+}
 .a-enter-vr{z-index:9999}.a-enter-vr-button{background-color:#2563eb!important;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.35)}
 body.circ #circ>.mut{padding-right:80px}
 body.c3on #circ{display:none!important}
@@ -385,6 +417,7 @@ AFRAME.registerComponent('gatesym',{
   <div class="row"><input id="eg" placeholder="Gruppo (es. 3AIT verifica 1)" list="egl"><datalist id="egl"></datalist><input id="et" placeholder="Titolo (facoltativo)"></div>
   <div class="row"><input id="ee" placeholder="Espressione: A*!B+C   (! NOT, * AND, + OR, ^ XOR, parentesi)" style="flex:1;min-width:240px"></div>
   <div class="row"><input id="ex" placeholder="oppure tabella di verità: 01101001 (uscite da 000 a 111)" style="flex:1;min-width:240px"></div>
+  <div class="row"><input id="ecc" placeholder="oppure circuito da analizzare: NAND(A,OR(B,NOT(C)))  (AND OR NOT NAND NOR XOR XNOR)" style="flex:1;min-width:240px"></div>
   <div class="row" id="ep"></div>
   <div class="row"><label>Min porte <input id="em" type="number" min="0" max="20" value="0" style="width:64px"></label><input id="eh" placeholder="Spiegazione dopo la verifica (facoltativa)" style="flex:1;min-width:200px"></div>
   <div class="row"><button id="ea">Aggiungi</button><button id="ed2">Scarica esercizi.json</button><button id="er">Ripristina dal file</button><button id="ec">Chiudi</button></div>
@@ -399,6 +432,11 @@ AFRAME.registerComponent('gatesym',{
   <div class="row" id="cpal"></div>
   <div class="row" id="cact"><button id="cun" class="ic" title="Indietro (Ctrl+Z)" aria-label="Indietro"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button><button id="crd" class="ic" title="Avanti (Ctrl+Y)" aria-label="Avanti"><svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button><button id="cdel" class="ic" title="Elimina selezione" aria-label="Elimina selezione"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg></button><button id="cclr" class="ic" title="Svuota tutto e ricomincia" aria-label="Svuota"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg></button><button id="cchk" class="ic" title="Verifica il circuito" aria-label="Verifica"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l3 3 5-6"/></svg></button><button id="cnext" class="ic" title="Esercizio successivo" aria-label="Esercizio successivo"><svg viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg></button><button id="zin" class="ic" title="Ingrandisci" aria-label="Ingrandisci"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M8 11h6M11 8v6"/></svg></button><button id="zout" class="ic" title="Riduci" aria-label="Riduci"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M8 11h6"/></svg></button><button id="zfit" class="ic" title="Adatta alla vista" aria-label="Adatta alla vista"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="ced" class="ic" hidden style="background:#7c3aed" title="Gestisci esercizi (modalità docente)" aria-label="Gestisci esercizi"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><select id="csel" title="Scegli esercizio"></select></div>
   <svg id="cw" viewBox="0 0 800 440"></svg>
+  <div id="an" hidden>
+    <div class="row"><b>Y =</b><input id="ans" placeholder="scrivi la funzione, es. A*!B + C" autocomplete="off" style="flex:1;min-width:200px"><button id="ansx" title="Cancella l'ultimo carattere">⌫</button><button id="anc" title="Cancella tutto">C</button></div>
+    <div class="row" id="ank"></div>
+    <div id="anp" style="font-weight:700;font-size:16px;min-height:22px"></div>
+  </div>
   <div id="cres"></div>
   <div class="mut">Aggiungi le porte, trascinale, poi tocca un’uscita e un ingresso per collegarli. Gli ingressi sono le linee verticali: tocca una linea e poi l’ingresso di una porta per collegarli. Tocca i cerchi in alto per cambiare i valori. Rotella o pizzico per ingrandire, trascina lo sfondo per spostarti. Seleziona un filo: trascina i punti per piegarlo, tocca il cerchietto al centro di un tratto per aggiungere un nodo, doppio tocco su un nodo per toglierlo. Anche il LED si trascina.</div>
 </div>
@@ -560,7 +598,7 @@ const OW={AND:75,NAND:85,OR:75,NOR:85,XOR:83,XNOR:93,NOT:72};
 const BODY={AND:'M0,0H45A30,30 0 0 1 45,60H0Z',OR:'M0,0Q35,0 75,30Q35,60 0,60Q20,30 0,0Z',NOT:'M8,8L8,52L62,30Z'};
 let ei=0,tgt=EX[0],nv=2,iv=[0,0,0,0],gs=[],ws=[],sel=null,pend=null,nid=1,drag=null,res='',vr3=false;
 let led={x:730,y:220},vb={x:0,y:0,w:800,h:440},wd=null,ld=null,pan=null,pinch=null,lastTap=0,lastKey='';const ptr=new Map();
-let undoSt=[],redoSt=[],hlast='',hlock=false;
+let undoSt=[],redoSt=[],hlast='',hlock=false,anTry=0,anInit=false;
 const hsn=()=>JSON.stringify({gs,ws,led,nid});
 function hchk(){
   const cur=hsn();
@@ -611,7 +649,7 @@ function icon(k){
     (xo?'<path class="ln" d="M0,0Q20,30 0,60"/>':'')+
     (bub?`<circle class="gb" cx="${ow-5}" cy="30" r="5"/>`:'')+'</svg>';
 }
-function cr(){hchk();
+function cr(){hchk();if(tgt.an){cra();return;}$('#an').hidden=true;$('#cpal').hidden=false;
   $('#ctar').innerHTML='<span class="mut">'+LV(tgt)+' · Esercizio '+(ei+1)+'/'+EX.length+'</span><br>Realizza: '+tgt.t;$('#cth').innerHTML=tgt.th||'';$('#cth').hidden=!tgt.th;document.querySelectorAll('#cpal button').forEach(b=>b.disabled=!!tgt.only&&!tgt.only.includes(b.dataset.k));
   let s='';
   let H='';
@@ -626,10 +664,10 @@ function cr(){hchk();
   gs.forEach(g=>s+=gsvg(g));
   for(let i=0;i<nv;i++){
     const x=lx(i);
-    s+=`<path class="vl${pend&&pend.id==='i'+i?' sel':''}${iv[i]?' on':''}" d="M${x},43V1500"/><path class="hit" data-pin="i${i}" data-dir="o" d="M${x},43V1500"/><g data-t="${i}"><circle cx="${x}" cy="30" r="13" class="tg${iv[i]?' on':''}"/><text x="${x}" y="35" text-anchor="middle" class="tx">${iv[i]}</text></g><text x="${x}" y="11" text-anchor="middle" class="tx">${'ABCD'[i]}</text>`;
+    s+=`<path class="vl${pend&&pend.id==='i'+i?' sel':''}${iv[i]?' on':''}" d="M${x},43V1500"/><path class="hit" data-pin="i${i}" data-dir="o" d="M${x},43V1500"/><g data-t="${i}"><circle cx="${x}" cy="46" r="13" class="tg${iv[i]?' on':''}"/><text x="${x}" y="51" text-anchor="middle" class="tx">${iv[i]}</text></g><text x="${x}" y="22" text-anchor="middle" class="tx lt">${'ABCD'[i]}</text>`;
   }
   s+=pinS('y','i',led.x-40,led.y)+`<path class="ln" d="M${led.x-32},${led.y}H${led.x-20}"/><g data-led="1" style="cursor:move"><circle class="led${out(iv)?' on':''}" cx="${led.x}" cy="${led.y}" r="20"/><text x="${led.x}" y="${led.y+6}" text-anchor="middle" class="tx">Y</text></g>`;
-  setVB();sv.innerHTML=s+H;
+  sv.innerHTML=s+H;setVB();
   $('#cres').innerHTML=res;$('#cdel').disabled=!sel;$('#cun').disabled=!undoSt.length;$('#crd').disabled=!redoSt.length;if(vr3)cr3();
 }
 /* ===== Circuiti 3D (VR) ===== */
@@ -718,7 +756,7 @@ $('#c3').addEventListener('click',e=>{
   }
   cr();
 });
-function load(){tgt=EX[ei];$('#csel').value=ei;led={x:730,y:220};vb={x:0,y:0,w:800,h:440};nv=tgt.n;iv=[0,0,0,0];gs=[];ws=[];sel=null;pend=null;res='';undoSt=[];redoSt=[];hlast=hsn();hlock=false;cr();}
+function load(){tgt=EX[ei];$('#csel').value=ei;led={x:730,y:220};vb={x:0,y:0,w:innerWidth<700?460:800,h:440};nv=tgt.n;iv=[0,0,0,0];gs=[];ws=[];sel=null;pend=null;res='';undoSt=[];redoSt=[];hlast=hsn();hlock=false;anTry=0;anInit=false;$('#ans').value='';$('#anp').innerHTML='';cr();}
 const ptc=(x,y)=>{const p=sv.createSVGPoint();p.x=x;p.y=y;return p.matrixTransform(sv.getScreenCTM().inverse());};
 const pt=e=>ptc(e.clientX,e.clientY);
 const snap=v=>Math.round(v/10)*10;
@@ -732,7 +770,17 @@ function wv(w){
   const s=w.a[0]==='i'?[lx(+w.a.slice(1)),(inner[0]||e)[1]]:pos(w.a);
   return[s,...inner,e];
 }
-function setVB(){sv.setAttribute('viewBox',`${vb.x} ${vb.y} ${vb.w} ${vb.h}`);}
+function setVB(){
+  const r=sv.clientHeight/sv.clientWidth;
+  if(r&&isFinite(r))vb.h=vb.w*r;
+  sv.setAttribute('viewBox',`${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
+  const u=vb.w/Math.max(sv.clientWidth,200),hr=Math.min(15,Math.max(11,22*u)),tr=Math.min(22,Math.max(13,22*u));
+  sv.querySelectorAll('.ph').forEach(c=>c.setAttribute('r',hr));
+  sv.querySelectorAll('.nd').forEach(c=>c.setAttribute('r',Math.max(8,hr*.75)));
+  sv.querySelectorAll('.mp').forEach(c=>c.setAttribute('r',Math.max(6,hr*.5)));
+  sv.querySelectorAll('circle.tg').forEach(c=>c.setAttribute('r',tr));
+  sv.querySelectorAll('text.lt').forEach(t=>t.setAttribute('y',46-tr-6));
+}
 function zoom(f,c){
   const nw=Math.min(3200,Math.max(160,vb.w/f)),k=nw/vb.w;
   vb.x=c.x-(c.x-vb.x)*k;vb.y=c.y-(c.y-vb.y)*k;vb.w=nw;vb.h=vb.h*k;setVB();
@@ -741,7 +789,7 @@ function fitV(){
   let mx=Math.max(800,led.x+70),my=Math.max(440,led.y+70);
   gs.forEach(g=>{mx=Math.max(mx,g.x+OW[g.k]+60);my=Math.max(my,g.y+110);});
   ws.forEach(w=>(w.pts||[]).forEach(q=>{mx=Math.max(mx,q[0]+30);my=Math.max(my,q[1]+30);}));
-  vb={x:0,y:0,w:mx,h:my};setVB();
+  const rr=sv.clientHeight/sv.clientWidth||0.55;vb={x:0,y:0,w:Math.max(mx,my/rr),h:my};setVB();
 }
 sv.addEventListener('pointerdown',e=>{
   ptr.set(e.pointerId,{x:e.clientX,y:e.clientY});
@@ -805,6 +853,8 @@ addEventListener('pointercancel',pup);
 $('#zin').onclick=()=>{zoom(1.25,{x:vb.x+vb.w/2,y:vb.y+vb.h/2});};
 $('#zout').onclick=()=>{zoom(1/1.25,{x:vb.x+vb.w/2,y:vb.y+vb.h/2});};
 $('#zfit').onclick=fitV;
+addEventListener('resize',setVB);
+addEventListener('orientationchange',()=>setTimeout(setVB,200));
 $('#cun').onclick=undo;
 $('#crd').onclick=redo;
 addEventListener('keydown',e=>{
@@ -827,7 +877,7 @@ $('#cdel').onclick=()=>{
 };
 $('#cclr').onclick=()=>{gs=[];ws=[];sel=null;pend=null;res='';cr();};
 $('#cnext').onclick=()=>{ei=(ei+1)%EX.length;load();};
-$('#cchk').onclick=check;function check(){
+$('#cchk').onclick=check;function check(){if(tgt.an){checkAn();return;}
   if(!ws.some(w=>w.b==='y')){res='Collega l’uscita Y a una porta o a un ingresso.';cr();return;}
   if(tgt.only&&gs.some(g=>!tgt.only.includes(g.k))){res='Usa solo porte: '+tgt.only.join(', ')+'.';cr();return;}
   if(tgt.min&&gs.length<tgt.min){res='Costruisci il circuito con almeno '+tgt.min+' porte.';cr();return;}
@@ -900,7 +950,115 @@ function pr(n,p){
   const[s,q]=SY[n.o],h=pr(n.a,q)+s+pr(n.b,q+1);
   return q<p?'('+h+')':h;
 }
+const evT=(n,v)=>n.v!==undefined?v[n.v]:n.g==='NOT'?G.NOT.f(evT(n.a[0],v)):G[n.g].f(evT(n.a[0],v),evT(n.a[1],v));
+const cmv=n=>n.v!==undefined?n.v:Math.max(...n.a.map(cmv));
+function pc(s){
+  const u=s.toUpperCase().replace(/\s+/g,''),t=u.match(/[A-Z]+|[(),]/g)||[];
+  if(!t.length||t.join('')!==u)throw new Error('circuito non valido');
+  let i=0;
+  const Nd=()=>{
+    const q=t[i++];
+    if(G[q]){
+      if(t[i++]!=='(')throw new Error('circuito non valido');
+      const a=[Nd()];
+      while(t[i]===','){i++;a.push(Nd());}
+      if(t[i++]!==')')throw new Error('circuito non valido');
+      if(a.length!==(q==='NOT'?1:2))throw new Error(q+' richiede '+(q==='NOT'?1:2)+' ingressi');
+      return{g:q,a};
+    }
+    if(q&&q.length===1&&q>='A'&&q<='D')return{v:'ABCD'.indexOf(q),c:q};
+    throw new Error('circuito non valido');
+  };
+  const r=Nd();if(i<t.length)throw new Error('circuito non valido');return r;
+}
+const GP={AND:[' · ',3],OR:[' + ',1],XOR:[' ⊕ ',2],NAND:[' · ',3],NOR:[' + ',1],XNOR:[' ⊕ ',2]};
+function prT(n,p){
+  if(n.v!==undefined)return n.c;
+  if(n.g==='NOT')return O(prT(n.a[0],0));
+  const[s,q]=GP[n.g],h=prT(n.a[0],q)+s+prT(n.a[1],q+1);
+  if(n.g==='NAND'||n.g==='NOR'||n.g==='XNOR')return O(h);
+  return q<p?'('+h+')':h;
+}
+function cra(){
+  $('#ctar').innerHTML='<span class="mut">'+LV(tgt)+' · Esercizio '+(ei+1)+'/'+EX.length+'</span><br>'+tgt.t;
+  $('#cth').hidden=true;$('#an').hidden=false;$('#cpal').hidden=true;
+  ['#cdel','#cun','#crd'].forEach(q=>{$(q).disabled=true;});
+  const T=tgt.an,s=1.5,C=260,X0=lx(nv-1)+70;let rows=0,maxc=0;
+  const wx=(d,on)=>`<path class="w${on?' on':''}" d="${d}"/>`;
+  const hgt=n=>n.v!==undefined?-1:1+Math.max(...n.a.map(hgt));
+  const val=n=>n.v!==undefined?iv[n.v]:(n.val=n.g==='NOT'?G.NOT.f(val(n.a[0])):G[n.g].f(val(n.a[0]),val(n.a[1])));
+  const place=n=>{
+    if(n.v!==undefined)return;
+    n.a.forEach(place);
+    const gc=n.a.filter(c=>c.v===undefined);
+    n.col=hgt(n);maxc=Math.max(maxc,n.col);
+    n.row=gc.length?gc.reduce((t,c)=>t+c.row,0)/gc.length:rows++;
+  };
+  place(T);val(T);
+  let wires='',gates='';
+  const draw=n=>{
+    if(n.v!==undefined)return;
+    n.a.forEach(draw);
+    const k=n.g,ow=OW[k],gx=X0+n.col*C,ry=90+n.row*130,gy=ry-32*s,ix=gx+2*s,ys=k==='NOT'?[ry]:[gy+17*s,gy+47*s];
+    n.ox=gx+(ow+22)*s;n.oy=ry;
+    n.a.forEach((c,j)=>{
+      const py=ys[j];
+      if(c.v!==undefined)wires+=wx(`M${lx(c.v)},${py}H${ix}`,iv[c.v])+`<circle class="jn" cx="${lx(c.v)}" cy="${py}" r="4"/>`;
+      else{const xm=(c.ox+ix)/2;wires+=wx(`M${c.ox},${c.oy}H${xm}V${py}H${ix}`,c.val);}
+    });
+    gates+=icon(k).replace(/width="[^"]+" height="32"/,`x="${gx}" y="${gy}" width="${(ow+24)*s}" height="${64*s}"`);
+  };
+  draw(T);
+  const yb=90+rows*130+40;let top='';
+  for(let i=0;i<nv;i++){
+    const x=lx(i);
+    top+=`<path class="vl${iv[i]?' on':''}" d="M${x},43V${yb}"/><g data-t="${i}"><circle cx="${x}" cy="46" r="13" class="tg${iv[i]?' on':''}"/><text x="${x}" y="51" text-anchor="middle" class="tx">${iv[i]}</text></g><text x="${x}" y="22" text-anchor="middle" class="tx lt">${'ABCD'[i]}</text>`;
+  }
+  const lxp=T.ox+100;
+  const led=wx(`M${T.ox},${T.oy}H${lxp-22}`,T.val)+`<circle class="led${T.val?' on':''}" cx="${lxp}" cy="${T.oy}" r="22"/><text x="${lxp}" y="${T.oy+6}" text-anchor="middle" class="tx">Y</text>`;
+  if(!anInit){const rr=sv.clientHeight/sv.clientWidth||0.55;vb={x:0,y:0,w:Math.max(lxp+80,(yb+30)/rr),h:yb+30};anInit=true;}
+  setVB();
+  sv.innerHTML=top+wires+gates+led;
+  $('#cres').innerHTML=res;
+}
+function checkAn(){
+  const v=$('#ans').value.trim();
+  if(!v){res='Scrivi la funzione nel campo Y = ...';cr();return;}
+  let a;
+  try{a=pe(v);}catch(e){res='Espressione non valida: usa A, B, C, D, ! (NOT), * (AND), + (OR), ^ (XOR) e le parentesi.';cr();return;}
+  const N=Math.min(4,Math.max(tgt.n,mv(a)+1)),bad=[];
+  for(let m=0;m<(1<<N);m++){
+    const w=[0,1,2,3].map(i=>i<N?(m>>(N-1-i))&1:0),e=tgt.f(...w)&1,o=ev(a,w)&1;
+    if(e!==o)bad.push(w.slice(0,N).map((b,i)=>'ABCD'[i]+'='+b).join(' ')+' → atteso '+e+', ottenuto '+o);
+  }
+  if(bad.length){
+    anTry++;
+    res=`<div class="rs bad">✘ Non ancora: ${bad.length} combinazioni su ${1<<N} sbagliate.<br>`+bad.slice(0,4).join('<br>')+(anTry>=3?'<br><button id="sol">Mostra la soluzione</button>':'')+'</div>';
+  }else res='<div class="rs good">✔ Corretto! La tua funzione coincide con quella del circuito per tutte le combinazioni.'+(tgt.th?' '+tgt.th:'')+'</div>';
+  cr();
+}
+function anPrev(){
+  const v=$('#ans').value.trim();let h='';
+  if(v){try{h='Y = '+pr(pe(v),0);}catch(e){h='<span class="mut">…</span>';}}
+  $('#anp').innerHTML=h;
+}
+function ins(k){
+  const a=$('#ans'),s=a.selectionStart==null?a.value.length:a.selectionStart,e=a.selectionEnd==null?s:a.selectionEnd;
+  a.value=a.value.slice(0,s)+k+a.value.slice(e);a.focus();a.setSelectionRange(s+k.length,s+k.length);anPrev();
+}
+['A','B','C','D','!','*','+','^','(',')'].forEach(k=>{const b=document.createElement('button');b.textContent=k;b.onclick=()=>ins(k);$('#ank').appendChild(b);});
+if(matchMedia('(pointer:coarse)').matches)$('#ans').inputMode='none';
+{const kb=document.createElement('button');kb.textContent='\u2328';kb.title='Mostra o nascondi la tastiera del telefono';kb.onclick=()=>{const a=$('#ans');a.inputMode=a.inputMode==='none'?'text':'none';a.focus();};$('#ank').appendChild(kb);}
+$('#ans').oninput=anPrev;
+$('#ans').onkeydown=e=>{if(e.key==='Enter')checkAn();};
+$('#ansx').onclick=()=>{$('#ans').value=$('#ans').value.slice(0,-1);anPrev();};
+$('#anc').onclick=()=>{$('#ans').value='';anPrev();};
+$('#cres').addEventListener('click',e=>{if(e.target.id==='sol'){res='<div class="rs good">Soluzione: Y = '+prT(tgt.an,0)+'</div>';cr();}});
 function mk(e,g){
+  if(e.circuito){
+    const T=pc(e.circuito);
+    return{cu:1,l:String(g),n:Math.min(4,cmv(T)+1),t:(e.titolo?esc(e.titolo)+' — ':'')+'Dato il circuito, scrivi la funzione logica Y',f:(...v)=>evT(T,v),an:T,th:e.teoria?esc(e.teoria):undefined};
+  }
   let n,f,t;
   if(e.tabella){
     const b=String(e.tabella).replace(/[^01]/g,'');n=Math.log2(b.length);
@@ -929,7 +1087,7 @@ function renderEd(b){
   const L=LOC||FILE;
   $('#es').textContent=b&&b.length?'Attenzione: '+b.join('; '):'';
   $('#egl').innerHTML=L.map(g=>`<option value="${esc(g.nome)}">`).join('');
-  $('#el').innerHTML=L.map((g,gi)=>`<b>${esc(g.nome)}</b>`+(g.esercizi||[]).map((e,i)=>`<div><button data-g="${gi}" data-i="${i}">✕</button><span>${esc((e.titolo?e.titolo+' — ':'')+(e.espressione||e.tabella||''))}</span></div>`).join('')).join('')||'<span class="mut">Nessun esercizio personalizzato.</span>';
+  $('#el').innerHTML=L.map((g,gi)=>`<b>${esc(g.nome)}</b>`+(g.esercizi||[]).map((e,i)=>`<div><button data-g="${gi}" data-i="${i}">✕</button><span>${esc((e.titolo?e.titolo+' — ':'')+(e.espressione||e.tabella||e.circuito||''))}</span></div>`).join('')).join('')||'<span class="mut">Nessun esercizio personalizzato.</span>';
   $('#ej').value=JSON.stringify({gruppi:L},null,1);
 }
 function persist(){try{localStorage.setItem('esercizi_locali',JSON.stringify(LOC));}catch(e){}renderEd(applyData());}
@@ -940,7 +1098,8 @@ $('#ec').onclick=()=>{$('#ed').hidden=true;};
 $('#ea').onclick=()=>{
   const e={},g=$('#eg').value.trim()||'Miei esercizi';
   if($('#et').value.trim())e.titolo=$('#et').value.trim();
-  if($('#ex').value.trim())e.tabella=$('#ex').value.trim();else e.espressione=$('#ee').value.trim();
+  if($('#ecc').value.trim())e.circuito=$('#ecc').value.trim();
+  else if($('#ex').value.trim())e.tabella=$('#ex').value.trim();else e.espressione=$('#ee').value.trim();
   const p=[...document.querySelectorAll('#ep input:checked')].map(c=>c.value);
   if(p.length&&p.length<Object.keys(G).length)e.porte=p;
   if(+$('#em').value>0)e.min=+$('#em').value;
@@ -949,7 +1108,7 @@ $('#ea').onclick=()=>{
   const L=edit();let gr=L.find(x=>x.nome===g);
   if(!gr){gr={nome:g,esercizi:[]};L.push(gr);}
   gr.esercizi.push(e);
-  $('#ee').value='';$('#ex').value='';$('#et').value='';$('#eh').value='';
+  $('#ee').value='';$('#ex').value='';$('#ecc').value='';$('#et').value='';$('#eh').value='';
   persist();
 };
 $('#el').addEventListener('click',e=>{

@@ -210,6 +210,55 @@
      "teoria": "Consenso: il termine B*C e ridondante, equivale a A*B + !A*C."
     }
    ]
+  },
+  {
+   "nome": "Analisi di circuiti - scrivi la funzione",
+   "esercizi": [
+    {
+     "titolo": "Analisi 1",
+     "circuito": "AND(A,NOT(B))"
+    },
+    {
+     "titolo": "Analisi 2",
+     "circuito": "OR(AND(A,B),C)"
+    },
+    {
+     "titolo": "Analisi 3",
+     "circuito": "NAND(A,B)"
+    },
+    {
+     "titolo": "Analisi 4",
+     "circuito": "AND(OR(A,B),NOT(C))"
+    },
+    {
+     "titolo": "Analisi 5",
+     "circuito": "OR(AND(A,NOT(B)),AND(NOT(A),B))"
+    },
+    {
+     "titolo": "Analisi 6",
+     "circuito": "NOR(AND(A,B),AND(B,C))"
+    },
+    {
+     "titolo": "Analisi 7",
+     "circuito": "XOR(AND(A,B),C)"
+    },
+    {
+     "titolo": "Analisi 8",
+     "circuito": "NAND(NAND(A,B),NAND(C,D))"
+    },
+    {
+     "titolo": "Analisi 9",
+     "circuito": "OR(OR(AND(A,B),AND(C,D)),AND(NOT(A),D))"
+    },
+    {
+     "titolo": "Analisi 10",
+     "circuito": "AND(NAND(A,B),OR(C,NOT(D)))"
+    },
+    {
+     "titolo": "Analisi 11",
+     "circuito": "XOR(XOR(A,B),XOR(C,D))"
+    }
+   ]
   }
  ]
 }
