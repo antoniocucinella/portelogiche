@@ -1,0 +1,84 @@
+/* =====================================================================
+   04-area-circuiti.css  -  LA SEZIONE "CIRCUITI"
+   ---------------------------------------------------------------------
+   Contiene: il contenitore #circ (schermo intero con la lavagna),
+   la tavolozza delle porte (#cpal), la barra dei pulsanti (#cact),
+   la lavagna SVG (#cw), il box di analisi (#an), i messaggi (#cres).
+   Il <body> riceve la classe "circ" quando questa sezione e' aperta.
+   ===================================================================== */
+
+/* ---------- Contenitore a schermo intero ---------- */
+#circ{
+  display:none;position:fixed;z-index:9;
+  left:184px;right:0;bottom:0;top:0;      /* lascia spazio al menu */
+  background:linear-gradient(160deg,var(--bg) 55%,var(--hl));
+  color:var(--fg);
+  flex-direction:column;padding:8px;gap:6px;box-sizing:border-box;
+}
+body.circ #circ{display:flex}
+/* In VR (c3on) la lavagna HTML sparisce: si usa quella 3D */
+body.c3on #circ{display:none!important}
+/* spazio a destra per il pulsante 2D/3D */
+body.circ #circ>.mut{padding-right:80px}
+
+/* ---------- Titolo dell'esercizio ---------- */
+#ctar{
+  font-weight:700;font-size:16px;line-height:1.7;
+  padding:8px 12px;border-radius:12px;
+  background:var(--hl);border:1px solid var(--line);
+}
+
+/* ---------- Lavagna (SVG) ---------- */
+#cw{
+  flex:1;min-height:0;width:100%;
+  touch-action:none;            /* gestiamo noi pizzico e trascinamento */
+  border:1px solid var(--line);border-radius:12px;
+  /* sfondo a puntini, come un foglio a quadretti */
+  background:radial-gradient(circle,var(--line) 1.2px,transparent 1.6px) 0 0/22px 22px,var(--bg);
+  box-shadow:0 4px 14px rgba(0,0,0,.12);
+}
+
+/* ---------- Tavolozza porte e barra dei pulsanti ---------- */
+#cpal button,#gates button{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:4px 8px;font-size:12px;
+  border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.14);
+  transition:transform .12s,border-color .12s;
+}
+#cpal button:hover,#gates button:hover{transform:translateY(-2px);border-color:var(--acc)}
+
+/* Pulsanti-icona quadrati (.ic): elimina, svuota, verifica, zoom... */
+.ic{
+  width:46px;height:46px;padding:0;border:0;border-radius:14px;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:#fff;box-shadow:0 3px 8px rgba(0,0,0,.25);transition:transform .12s;
+}
+.ic:hover:not(:disabled){transform:scale(1.07)}
+.ic svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+/* Un colore diverso per ogni funzione */
+#cdel{background:#ef4444}                 /* elimina  - rosso   */
+#cclr{background:#64748b}                 /* svuota   - grigio  */
+#cchk{background:#16a34a}                 /* verifica - verde   */
+#cnext{background:#2563eb}                /* prossimo - blu     */
+#zin,#zout,#zfit{background:#0891b2}      /* zoom     - azzurro */
+#cun,#crd{background:#475569}             /* undo/redo - ardesia */
+
+/* Menu a tendina per scegliere l'esercizio */
+#csel{
+  font:inherit;color:var(--fg);background:var(--bg);
+  border:1px solid var(--line);border-radius:12px;padding:10px;
+}
+
+/* ---------- Analisi di circuiti: campo "Y = ..." ---------- */
+#an input{
+  font:inherit;color:var(--fg);background:var(--bg);
+  border:1px solid var(--line);border-radius:8px;padding:8px;
+}
+#ank button{min-width:40px;font-weight:700}   /* tastierino A B C D ! * + ^ ( ) */
+
+/* ---------- Messaggi di risposta ---------- */
+#cres{font-size:13px;color:var(--fg);min-height:18px}
+#cres button{margin-top:6px}
+.rs{padding:8px 12px;border-radius:12px;font-weight:600}
+.rs.good{background:rgba(22,163,74,.15);border:1px solid var(--ok);color:var(--ok)}
+.rs.bad{background:rgba(220,38,38,.12);border:1px solid var(--bad)}

@@ -1,0 +1,87 @@
+/* =====================================================================
+   01-base.css  -  FONDAMENTA DELLO STILE
+   ---------------------------------------------------------------------
+   Qui ci sono le regole che valgono per tutta la pagina:
+   - le VARIABILI dei colori (tema chiaro e tema scuro)
+   - lo stile di body, pulsanti e tabelle
+   - alcune classi "di servizio" riusate ovunque (.ui, .row, .mut)
+
+   Le variabili CSS si scrivono --nome e si usano con var(--nome).
+   Se vuoi cambiare un colore in tutto il programma, cambia SOLO qui.
+   ===================================================================== */
+
+/* ---------- Colori: tema chiaro (predefinito) ---------- */
+:root{
+  --bg:#fff;      /* sfondo dei pannelli          */
+  --fg:#1b1b1f;   /* colore del testo             */
+  --mut:#6b6b76;  /* testo / fili "spenti" (grigio) */
+  --line:#d8d8e0; /* bordi e linee sottili        */
+  --acc:#2563eb;  /* colore di accento (blu)      */
+  --ok:#16a34a;   /* verde: segnale a 1, risposta giusta */
+  --bad:#dc2626;  /* rosso: risposta sbagliata    */
+  --hl:#dbeafe;   /* evidenziazione (azzurro)     */
+  box-sizing:border-box;
+  /* margini di sicurezza per i telefoni con "notch" */
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+
+/* ---------- Colori: tema scuro ----------
+   Si attiva se il dispositivo e' impostato sul tema scuro... */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#1c1c22;--fg:#f2f2f6;--mut:#a0a0ad;--line:#3a3a46;
+    --ok:#4ade80;--bad:#f87171;--hl:#26385e;
+  }
+}
+/* ...oppure se la pagina ha l'attributo data-theme="dark" */
+:root[data-theme="dark"]{
+  --bg:#1c1c22;--fg:#f2f2f6;--mut:#a0a0ad;--line:#3a3a46;
+  --ok:#4ade80;--bad:#f87171;--hl:#26385e;
+}
+
+/* ---------- Pagina ---------- */
+html,body{height:100%}
+body{
+  margin:0;
+  background:#14141c;
+  font:14px system-ui,-apple-system,"Segoe UI",sans-serif;
+  color:var(--fg);
+}
+
+/* Un elemento con l'attributo "hidden" sparisce SEMPRE */
+[hidden]{display:none!important}
+
+/* ---------- Classi di servizio ---------- */
+/* .ui = pannello flottante (menu, pannello tabella, finestre) */
+.ui{
+  position:fixed;z-index:10;
+  background:var(--bg);color:var(--fg);
+  border:1px solid var(--line);border-radius:12px;padding:8px;
+}
+/* .row = riga di elementi affiancati */
+.row{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:4px 0}
+/* .mut = testo piccolo e grigio (note, suggerimenti) */
+.mut{color:var(--mut);font-size:12px;margin-top:4px}
+
+/* ---------- Pulsanti ---------- */
+button{
+  font:inherit;color:var(--fg);background:var(--bg);
+  border:1px solid var(--line);border-radius:8px;
+  padding:4px 10px;cursor:pointer;
+  touch-action:manipulation; /* niente zoom con il doppio tocco */
+}
+button.on{                    /* pulsante attivo: sfondo sfumato blu-viola */
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+  color:#fff;border-color:transparent;
+}
+button:disabled{opacity:.4;cursor:default}
+
+/* ---------- Tabelle (tabella di verita') ---------- */
+table{border-collapse:collapse;margin:6px 0;width:100%;text-align:center}
+th,td{border:1px solid var(--line);padding:4px 8px}
+tr[data-r]{cursor:pointer}              /* riga cliccabile */
+tr.cur td{background:var(--hl);font-weight:700} /* riga corrente */
+td.g{text-decoration:underline dotted}  /* cella da indovinare */
+td.ok{color:var(--ok)}                  /* ipotesi giusta */
+td.bad{color:var(--bad)}                /* ipotesi sbagliata */

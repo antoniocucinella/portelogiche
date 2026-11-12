@@ -1,0 +1,57 @@
+/* =====================================================================
+   07-responsive.css  -  ADATTAMENTO A TELEFONI E SCHERMI BASSI
+   ---------------------------------------------------------------------
+   Le regole dentro @media si applicano SOLO se la condizione e' vera.
+   Questo file va caricato PER ULTIMO: le sue regole devono vincere su
+   quelle "normali" (a parita' di importanza vince la regola scritta dopo).
+   ===================================================================== */
+
+/* ---------- Schermi stretti (telefoni in verticale) ---------- */
+@media (max-width:700px){
+  /* Menu ridotto alle sole icone */
+  #bar{width:56px}
+  #bar .lb{display:none}          /* nasconde le etichette di testo */
+  #gates{grid-template-columns:1fr}
+  #gates span{display:none}
+  #circ{left:72px}
+  #s2{padding:12px 8px 300px 72px}
+  #panel{left:72px}
+}
+
+@media (max-width:700px){
+  /* Sezione Circuiti piu' compatta */
+  #circ{padding:4px;gap:4px}
+  #ctar{padding:4px 8px;font-size:13px}
+  #ctar .mut{font-size:11px}
+  #cth{font-size:12px!important;padding:4px 8px!important}
+  /* Tavolozza e pulsanti su una sola riga scorrevole */
+  #cpal,#cact{flex-wrap:nowrap;overflow-x:auto;margin:0;padding-bottom:2px}
+  #cpal button{flex:none;padding:2px 6px}
+  #cpal svg{width:42px;height:auto}
+  .ic{width:40px;height:40px;flex:none}
+  #cact select{flex:none;max-width:120px;padding:6px}
+  #circ>.mut{display:none}
+  #cres{font-size:12px}
+  #an input,#ed input{font-size:16px}   /* 16px evita lo zoom automatico di iOS */
+  #an .row{margin:2px 0}
+  body.mh #circ{left:0}
+  body.mh #ctar{margin-left:50px}       /* spazio per il pulsante hamburger */
+}
+
+/* ---------- Schermi bassi (telefoni in orizzontale) ---------- */
+@media (max-height:520px){
+  #circ{padding:4px;gap:4px}
+  #ctar{padding:3px 8px;font-size:13px}
+  #ctar .mut{display:none}
+  #cth{display:none}
+  #cpal,#cact{flex-wrap:nowrap;overflow-x:auto;margin:0}
+  #cpal button{flex:none;padding:2px 6px}
+  #cpal svg{width:36px;height:auto}
+  .ic{width:38px;height:38px;flex:none}
+  #circ>.mut{display:none}
+}
+
+/* Su telefono il pannello della tabella va in basso */
+@media (max-width:700px){
+  #panel{top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 8px);left:8px;right:72px;width:auto}
+}
