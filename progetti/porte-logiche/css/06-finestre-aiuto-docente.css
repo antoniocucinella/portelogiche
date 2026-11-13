@@ -1,0 +1,24 @@
+/* =====================================================================
+   06-finestre-aiuto-docente.css  -  FINESTRE EXTRA
+   ---------------------------------------------------------------------
+   - Finestra "Aiuto" (#hlp): porte logiche = circuiti elettrici
+   - Finestra "Modalita' docente" (#ed): editor degli esercizi
+   Le schede delle porte dell'Aiuto (#htabs) sono stilate in 04.
+   ===================================================================== */
+
+/* Le due finestre: angoli piu' ampi e ombra piu' marcata (stanno sopra a tutto) */
+#hlp,#ed{border-radius:28px;padding:20px!important;box-shadow:0 24px 60px -20px rgba(0,0,0,.45)}
+#hlp p{max-width:75ch;line-height:1.55}
+#hx,#ec{font-weight:700}
+
+/* ---------- Aiuto: disegni dei circuiti ---------- */
+.hd{fill:var(--bg);stroke:var(--fg);stroke-width:2}       /* capi dei contatti */
+.lamp{fill:#374151;stroke:var(--fg);stroke-width:3}       /* lampadina spenta  */
+.lamp.on{fill:#facc15;filter:drop-shadow(0 0 10px #facc15)} /* lampadina accesa */
+
+/* ---------- Modalita' docente: editor esercizi ---------- */
+#ed .row{margin:10px 0}
+#ea,#ei{background:var(--c);color:#fff;border-color:transparent}   /* azioni principali */
+#ea:hover:not(:disabled),#ei:hover:not(:disabled){border-color:transparent;filter:brightness(1.1)}
+#el div{display:flex;gap:8px;align-items:center;margin:4px 0}
+#el b{display:block;margin-top:10px}

@@ -1,0 +1,69 @@
+/* =====================================================================
+   05-simboli-svg.css  -  COME SI DISEGNANO PORTE, FILI E LED
+   ---------------------------------------------------------------------
+   Le porte, i fili, gli interruttori e il LED sono disegni SVG creati
+   dal JavaScript. Qui diciamo come colorarli tramite le loro classi.
+   Convenzione: la classe "on" = segnale a 1 (verde / acceso),
+                la classe "sel" = elemento selezionato (blu).
+   ===================================================================== */
+
+/* ---------- Foglio bianco ----------
+   La lavagna dei circuiti (#cw) e la vista 2D della porta (#s2) sono sempre
+   BIANCHE, anche nel tema scuro. Per questo ridefiniamo qui i colori solo per
+   loro: tutti i disegni al loro interno (porte, fili, testi) usano i colori
+   del tema chiaro e restano leggibili. */
+#cw,#s2{
+  --bg:#ffffff;--fg:#1a1f36;--mut:#5a627f;--line:#dde1ee;
+  --acc:#2563eb;--ok:#16a34a;--bad:#dc2626;
+  --hl:color-mix(in srgb,var(--acc) 11%,var(--bg));
+}
+
+/* Angoli e terminali arrotondati su tutti i tratti */
+.gb,.ln,.w,.vl,.neg{stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- Porte logiche ---------- */
+.gb{fill:var(--hl);stroke:var(--fg);stroke-width:3}        /* corpo della porta   */
+.ln{fill:none;stroke:var(--fg);stroke-width:3}             /* linee / piedini     */
+.neg{fill:var(--bg);stroke:#f59e0b;stroke-width:3}         /* pallino di negazione */
+.gn{fill:var(--mut);font:600 11px ui-rounded,"SF Pro Rounded","Nunito","Segoe UI",system-ui,sans-serif;pointer-events:none} /* nome porta */
+.gs .gb,.gs .ln{stroke:var(--acc)}                         /* porta selezionata   */
+
+/* Testo con linea sopra = segnale negato (A con la barra) */
+.ov{text-decoration:overline;text-decoration-thickness:2px}
+
+/* ---------- Fili ---------- */
+.w{fill:none;stroke:var(--mut);stroke-width:3}
+.w.on{stroke:var(--ok)}
+.w.sel{stroke:var(--acc);stroke-width:5}
+.hit{fill:none;stroke:transparent;stroke-width:16;pointer-events:stroke;cursor:pointer} /* zona di tocco piu' larga */
+
+/* Linee verticali degli ingressi A, B, C, D */
+.vl{fill:none;stroke:var(--mut);stroke-width:3}
+.vl.on{stroke:var(--ok)}
+.vl.sel{stroke:var(--acc);stroke-width:5}
+
+/* Punto di giunzione e punti di collegamento (pin) */
+.jn{fill:var(--ok)}
+.pd{fill:var(--mut);pointer-events:none}
+.pd.sel{fill:var(--acc);stroke:var(--acc);stroke-width:4}
+.ph{fill:transparent;cursor:pointer}                       /* zona di tocco del pin */
+.pin{fill:var(--bg);stroke:var(--fg);stroke-width:2;cursor:pointer}
+.pin.sel{fill:var(--acc)}
+
+/* Maniglie per piegare i fili */
+.nd{fill:var(--acc);stroke:var(--bg);stroke-width:2;cursor:move}  /* nodo trascinabile */
+.mp{fill:var(--bg);stroke:var(--acc);stroke-width:2;cursor:copy} /* punto medio: aggiunge un nodo */
+
+/* ---------- Interruttori, testi e LED ---------- */
+.tg{fill:var(--bg);stroke:var(--mut);stroke-width:2;cursor:pointer}
+.tg.on{fill:var(--ok);stroke:var(--ok)}
+.tx{fill:var(--fg);font:800 15px ui-rounded,"SF Pro Rounded","Nunito","Segoe UI",system-ui,sans-serif;pointer-events:none}
+.tg.on+.tx{fill:#052e16}                                   /* testo scuro sul verde acceso */
+.led{fill:#3a1212;stroke:var(--fg);stroke-width:2}
+.led.on{fill:#ff4d4d}
+.led+.tx{fill:#fff}                                          /* lettera Y sempre bianca sul LED */
+
+/* ---------- Effetto "luce" sugli elementi accesi ---------- */
+.w.on,.vl.on{filter:drop-shadow(0 0 3px var(--ok))}
+.tg.on{filter:drop-shadow(0 0 5px var(--ok))}
+.led.on{filter:drop-shadow(0 0 8px #ff4d4d)}

@@ -1,0 +1,84 @@
+/* =====================================================================
+   02-menu-laterale.css  -  IL MENU A SINISTRA
+   ---------------------------------------------------------------------
+   Contiene: la barra #bar con "Laboratori", "Porta singola" / "Circuiti",
+   la griglia delle porte #gates, la linguetta #mx sul bordo del menu (nasconde e mostra il menu)
+   e il cambio tema (#tema).
+   Quando il menu e' nascosto il <body> riceve la classe "mh"
+   (menu hidden): le regole "body.mh ..." servono a questo.
+   ===================================================================== */
+
+/* ---------- La barra ---------- */
+#bar{
+  top:calc(env(safe-area-inset-top,0px) + 8px);
+  left:8px;bottom:8px;width:180px;
+  display:flex;flex-direction:column;gap:4px;align-items:stretch;
+  box-sizing:border-box;                     /* la larghezza include il margine interno */
+  overflow-y:auto;overflow-x:hidden;padding:10px;border-radius:26px;
+  scrollbar-width:none;
+  transition:transform .2s,opacity .2s;  /* animazione di apertura/chiusura */
+}
+#bar::-webkit-scrollbar{display:none}
+/* Menu nascosto: scivola fuori dallo schermo */
+body.mh #bar{transform:translateX(-120%);opacity:0;pointer-events:none}
+
+/* ---------- Voci del menu: pulsanti senza bordo, pieni quando attivi ---------- */
+#bar>button{
+  display:flex;align-items:center;gap:10px;
+  border:0;background:transparent;color:var(--mut);
+  border-radius:14px;padding:10px 12px;font-weight:700;text-align:left;
+}
+#bar>button:hover:not(:disabled):not(.on){background:color-mix(in srgb,var(--fg) 8%,transparent);color:var(--fg)}
+#bar>button.on{background:var(--c);color:#fff}
+#bar>button svg{
+  width:22px;height:22px;flex:none;
+  fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+/* ---------- "Laboratori": torna alla home, con il simbolo a 4 colori ---------- */
+#home{
+  color:var(--fg);margin-bottom:6px;
+  border-radius:14px 14px 0 0;border-bottom:1px solid var(--line);padding-bottom:12px;
+}
+#home .logo{stroke:none}
+#home .logo rect:nth-child(1){fill:#2563eb}
+#home .logo rect:nth-child(2){fill:#c2410c}
+#home .logo rect:nth-child(3){fill:#0f766e}
+#home .logo rect:nth-child(4){fill:#7c3aed}
+
+/* ---------- Titolo e griglia delle porte logiche (2 colonne) ---------- */
+#gt{font-weight:700;margin:8px 6px 2px}
+#gates{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#gates svg{width:100%;max-width:58px;height:auto}
+/* Nella sezione Circuiti la griglia e il titolo "Porte logiche" spariscono
+   (le porte si aggiungono dalla tavolozza #cpal) */
+body.circ #gt{display:none}
+
+/* ---------- Cambio tema: luna nel tema chiaro, sole in quello scuro ---------- */
+.i-sole{display:none}
+:root[data-theme="dark"] .i-luna{display:none}
+:root[data-theme="dark"] .i-sole{display:block}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .i-luna{display:none}
+  :root:not([data-theme="light"]) .i-sole{display:block}
+}
+
+/* ---------- Linguetta laterale (#mx) ----------
+   Sta attaccata al bordo destro del menu, a meta' altezza, e scorre con lui.
+   Con il menu nascosto resta sul bordo sinistro dello schermo e la freccia si gira. */
+#mx{
+  left:187px;top:50%;margin-top:-36px;      /* 187 = 8 (margine) + 180 (menu) - 1 (bordo) */
+  width:28px;height:72px;padding:0;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:0 16px 16px 0;border-left:0;
+  color:var(--mut);cursor:pointer;
+  transition:left .2s,color .15s,background .15s;
+}
+#mx:hover{color:var(--fg);background:var(--hl)}
+#mx svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+body.mh #mx{left:0}
+body.mh #mx svg{transform:rotate(180deg)}
+
+/* Quando il menu e' nascosto le aree a destra si allargano */
+body.mh #circ{left:36px}
+body.mh #s2{padding-left:36px}

@@ -1,0 +1,132 @@
+/* =====================================================================
+   01-base.css  -  FONDAMENTA DELLO STILE
+   ---------------------------------------------------------------------
+   Stesso linguaggio grafico della home (assets/css/hub.css): stessi
+   colori, angoli molto arrotondati, pulsanti "a pillola", ombre morbide.
+   Qui ci sono:
+   - le VARIABILI dei colori (tema chiaro e tema scuro)
+   - lo stile di body, pulsanti, campi di testo e tabelle
+   - alcune classi "di servizio" riusate ovunque (.ui, .row, .mut)
+
+   Le variabili CSS si scrivono --nome e si usano con var(--nome).
+   Se vuoi cambiare un colore in tutto il programma, cambia SOLO qui.
+   Il tema scelto con il pulsante "Tema" e' lo stesso della home
+   (chiave "hub:tema" nel localStorage).
+   ===================================================================== */
+
+/* ---------- Colori: tema chiaro (predefinito) ---------- */
+:root{
+  --page:#f2f4fa;   /* sfondo dietro ai pannelli (lavagna, vista 2D) */
+  --bg:#ffffff;     /* superficie dei pannelli e dei pulsanti        */
+  --fg:#1a1f36;     /* colore del testo                              */
+  --mut:#5a627f;    /* testo / fili "spenti" (grigio)                */
+  --line:#dde1ee;   /* bordi e linee sottili                         */
+  --c:#2563eb;      /* colore di Porte logiche: pulsanti pieni       */
+  --acc:#2563eb;    /* accento: selezioni, focus                     */
+  --hl:color-mix(in srgb,var(--acc) 11%,var(--bg)); /* evidenziazione */
+  --ok:#16a34a;     /* verde: segnale a 1, risposta giusta           */
+  --ok-fill:#15803d;/* verde scuro: pulsanti pieni con testo bianco  */
+  --bad:#dc2626;    /* rosso: risposta sbagliata                     */
+  --shadow:0 1px 2px rgba(26,31,54,.06),0 10px 28px -14px rgba(26,31,54,.22);
+  --shadow-s:0 1px 2px rgba(26,31,54,.06),0 4px 10px -6px rgba(26,31,54,.2);
+  color-scheme:light;
+  box-sizing:border-box;
+  /* margini di sicurezza per i telefoni con "notch" */
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+
+/* ---------- Colori: tema scuro ----------
+   Si attiva se il dispositivo e' impostato sul tema scuro... */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --page:#12162a;--bg:#1b2040;--fg:#eef0fb;--mut:#a4acc9;--line:#2c3358;
+    --acc:#7aa2ff;--ok:#4ade80;--bad:#f87171;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px -14px rgba(0,0,0,.6);
+    --shadow-s:0 1px 2px rgba(0,0,0,.3),0 4px 10px -6px rgba(0,0,0,.5);
+    color-scheme:dark;
+  }
+}
+/* ...oppure se la pagina ha l'attributo data-theme="dark" */
+:root[data-theme="dark"]{
+  --page:#12162a;--bg:#1b2040;--fg:#eef0fb;--mut:#a4acc9;--line:#2c3358;
+  --acc:#7aa2ff;--ok:#4ade80;--bad:#f87171;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px -14px rgba(0,0,0,.6);
+  --shadow-s:0 1px 2px rgba(0,0,0,.3),0 4px 10px -6px rgba(0,0,0,.5);
+  color-scheme:dark;
+}
+
+/* ---------- Pagina ---------- */
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--page);
+  font:15px/1.45 ui-rounded,"SF Pro Rounded","Nunito","Segoe UI Variable Display","Segoe UI",system-ui,sans-serif;
+  color:var(--fg);
+}
+
+/* Un elemento con l'attributo "hidden" sparisce SEMPRE */
+[hidden]{display:none!important}
+
+/* Anello di focus visibile per chi usa la tastiera */
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+
+/* ---------- Classi di servizio ---------- */
+/* .ui = pannello flottante (menu, pannello tabella, finestre) */
+.ui{
+  position:fixed;z-index:10;
+  background:var(--bg);color:var(--fg);
+  border:1px solid var(--line);border-radius:22px;padding:12px;
+  box-shadow:var(--shadow);
+}
+/* .row = riga di elementi affiancati */
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}
+/* .mut = testo piccolo e grigio (note, suggerimenti) */
+.mut{color:var(--mut);font-size:13px;margin-top:6px}
+
+/* ---------- Pulsanti ----------
+   Base: superficie chiara con bordo sottile.
+   ".on" = pulsante attivo: pieno, nel colore del progetto. */
+button{
+  font:inherit;font-weight:600;color:var(--fg);background:var(--bg);
+  border:1px solid var(--line);border-radius:12px;
+  padding:8px 14px;cursor:pointer;
+  touch-action:manipulation; /* niente zoom con il doppio tocco */
+  transition:transform .12s,border-color .15s,background .15s,box-shadow .15s,filter .15s;
+}
+button:hover:not(:disabled){border-color:var(--acc)}
+button:active:not(:disabled){transform:scale(.97)}
+button.on{
+  background:var(--c);color:#fff;border-color:transparent;
+  box-shadow:0 8px 18px -8px color-mix(in srgb,var(--c) 80%,transparent),inset 0 1px 0 rgba(255,255,255,.22);
+}
+button:disabled{opacity:.4;cursor:default}
+
+/* ---------- Campi di testo ---------- */
+input:not([type=checkbox]),select,textarea{
+  font:inherit;color:var(--fg);background:var(--bg);
+  border:1px solid var(--line);border-radius:12px;padding:9px 12px;
+  transition:border-color .15s,box-shadow .15s;
+}
+input:not([type=checkbox]):focus,select:focus,textarea:focus{
+  outline:none;border-color:var(--acc);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 22%,transparent);
+}
+input::placeholder,textarea::placeholder{color:var(--mut)}
+input[type=checkbox]{width:18px;height:18px;accent-color:var(--c);cursor:pointer}
+
+/* ---------- Tabelle (tabella di verita') ---------- */
+table{
+  border-collapse:separate;border-spacing:0;margin:8px 0;width:100%;text-align:center;
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;
+}
+th{font-size:12px;font-weight:700;color:var(--mut);background:color-mix(in srgb,var(--mut) 9%,var(--bg))}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line)}
+th+th,td+td{border-left:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+tr[data-r]{cursor:pointer}                    /* riga cliccabile */
+tr[data-r]:hover td{background:color-mix(in srgb,var(--acc) 6%,var(--bg))}
+tr.cur td{background:var(--hl);font-weight:800}  /* riga corrente */
+td.g{text-decoration:underline dotted}        /* cella da indovinare */
+td.ok{color:var(--ok)}                        /* ipotesi giusta */
+td.bad{color:var(--bad)}                      /* ipotesi sbagliata */
